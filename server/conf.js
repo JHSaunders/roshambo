@@ -1,4 +1,5 @@
 exports.port = 8888;
+exports.production = false;
 exports.project_root = "./";
 exports.template_dir = exports.project_root + "templates/";
 exports.static_dir = exports.project_root + "static/";

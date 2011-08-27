@@ -16,13 +16,15 @@ function handleRequest(request, response) {
     console.log("Received POST data chunk '" + postDataChunk + "'.");
   });
   request.addListener("end", function() {
-    router.route(pathname, response, postData);
+    router.route(pathname, request, response, postData);
   });
 };
 
-process.on('uncaughtException', function (err) {
-    console.log('Caught exception: ' + err);
-});
+if (conf.production) {
+  process.on('uncaughtException', function (err) {
+      console.log('Caught exception: ' + err);
+  });
+}
 
 http.createServer(handleRequest).listen(conf.port);
 console.log("Listening on port " + conf.port);
