@@ -20,6 +20,10 @@ function handleRequest(request, response) {
   });
 };
 
+process.on('uncaughtException', function (err) {
+    console.log('Caught exception: ' + err);
+});
+
 http.createServer(handleRequest).listen(conf.port);
 console.log("Listening on port " + conf.port);
 
