@@ -1,23 +1,17 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE html 
-          PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html> 
+<html>
 <head>
 	<link rel="stylesheet" href="style.css"/>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"/>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"/>
 	</script>
 	<script>
 		function show_result(result) {
 			return function() {
 				clear_options();
 				$("#try-again").hide();
-				if (result["result"]!="draw") {						
-					$("#options").hide();
-				} else {
-
-					$("#try-again").show();
-				}
+				$("#options").hide();
+				$("#play-again").show();
+				
 				switch(result["result"]){				
 					case "win":
 						$("#result").html("You win!");
@@ -28,10 +22,11 @@
 						$("#beats").html("loses to");
 					break;
 					case "draw":
-						$("#result").html("Its a draw! Try again.");
-						$("#beats").html("is the same as");
+						$("#result").html("Its a draw!");
+						$("#beats").html("draws with");
 					break;
 				}
+				
 				$("#results").show();
 				your_choice= result["you"]
 				opponent_choice= result["opponent"]
@@ -42,17 +37,20 @@
 		}
 
 		function clear_options(){
+			
 			weapons = ["rock","paper","scissors"]
 			for (i in weapons) {
-			x = weapons[i]	
-			$("#"+x+" img").attr("src","static/images/"+x+"-white.png");
+				x = weapons[i]	
+				$("#"+x+" img").attr("src","static/images/"+x+"-white.png");
+				$("#"+x).attr("href","javascript:select_option('"+x+"')");
 			}
 
 		}
 
 
 		function select_option(weapon) {
- 			clear_options();
+			clear_options();
+			$("#options a").attr("href","#");
 			$("#"+weapon+" img").attr("src","static/images/"+weapon+"-black.png");
 			
 
@@ -66,7 +64,14 @@
 
 			res = {"you":weapon,"opponent":"rock","result":result};
 			
-			window.setTimeout(show_result(res), 500);		
+			window.setTimeout(show_result(res), 1000);		
+		}
+
+		function play_again(){
+			$("#results").hide();
+			$("#waiting").show();
+			check_for_opponent();
+			clear_options();
 		}
 
 		function check_for_opponent(){
@@ -83,7 +88,7 @@
 <body>
 	<div id="waiting">
 		<h1>Waiting for your opponent</h1>
-		<h1>Send this to your opponent: http://rsb.com/1244</h1>
+		<h2>Send this link to your opponent:<br/> http://rsb.com/1244</h2>
 	</div>
 
 	<div id="results">
@@ -92,12 +97,18 @@
 		<span id ="beats">beats</span>
 		<img id="opponent-move"/>
 		<h1 id="try-again">Try again</h1>
+
+		<div>
+		<a href="javascript:play_again()">
+		<div id="play-again" class="button">Play again</div>
+		</a>
+		</div>
 	</div>
 	<div id="options">
 		<h1>Choose your weapon</h1>
-		<a id = "rock" href='javascript:select_option("rock")'><img src="static/images/rock-white.png"></a>
-		<a id = "paper" href='javascript:select_option("paper")'><img src="static/images/paper-white.png"></a>
-		<a id = "scissors" href='javascript:select_option("scissors")'><img src="static/images/scissors-white.png"></a>
+		<a id="rock" href='javascript:select_option("rock")'><img src="static/images/rock-white.png"></a>
+		<a id="paper" href='javascript:select_option("paper")'><img src="static/images/paper-white.png"></a>
+		<a id="scissors" href='javascript:select_option("scissors")'><img src="static/images/scissors-white.png"></a>
 
 	</div>
 </body>

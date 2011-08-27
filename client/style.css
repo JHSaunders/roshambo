@@ -1,5 +1,6 @@
 body {
 	font-family: sans-serif;
+	text-align:center;
 }
 
 a {
@@ -11,20 +12,28 @@ a {
 	border-radius: 15px;
 	padding:15px;
 	font-weight:bold;
-
+	color:black;
 	border: 10px solid black;
 }
 
+#play-again {
+	width:200px;
+	margin-left:auto;
+	margin-right:auto;
+	font-size:2em;
+}
+
 #play {
-	border-color:#00FF00;
+	/*border-color:#00FF00;
 	color: #00FF00;
-	background-color: #A9F5A9;
+	background-color: #A9F5A9;*/
+	
 	position:absolute;
     	top:50%;
     	left:50%;
-	margin-left:-115px;
+	margin-left:-165px;
 	margin-top:-1.5em;
-	width: 200px;
+	width: 300px;
 	text-align:center;
 }
 
@@ -39,3 +48,11 @@ a {
 	display:none;
 }
 
+#results img {
+	vertical-align:middle;
+}
+
+#beats {
+	font-weight:bold;
+	font-size: 2em;
+}
