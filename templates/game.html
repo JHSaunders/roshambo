@@ -5,13 +5,13 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"/>
 	</script>
 	<script>
-		function show_result(result) {			
+		function show_result(result) {
 			clear_options();
 			$("#try-again").hide();
 			$("#options").hide();
 			$("#play-again").show();
-			
-			switch(result["result"]){				
+
+			switch(result["result"]){
 				case "win":
 					$("#result").html("You win!");
 					$("#beats").html("beats");
@@ -25,21 +25,21 @@
 					$("#beats").html("draws with");
 				break;
 			}
-			
+
 			$("#results").show();
 			your_choice= result["you"]
 			opponent_choice= result["opponent"]
 
 			$("#your-move").attr("src","/static/images/"+your_choice+"-white.png");
 			$("#opponent-move").attr("src","/static/images/"+opponent_choice+"-white.png");
-		
+
 		}
 
 		function clear_options(){
-			
+
 			weapons = ["rock","paper","scissors"]
 			for (i in weapons) {
-				x = weapons[i]	
+				x = weapons[i]
 				$("#"+x+" img").attr("src","/static/images/"+x+"-white.png");
 				$("#"+x).attr("href","javascript:select_option('"+x+"')");
 			}
@@ -51,18 +51,18 @@
 			clear_options();
 			$("#options a").attr("href","#");
 			$("#"+weapon+" img").attr("src","/static/images/"+weapon+"-black.png");
-			
+
 
 			result = "draw";
-			
+
 			if (weapon=="paper") {
 				result = "win";
 			} else if (weapon=="scissors"){
 				result = "lose";
 			}
 
-			$.post("./play",{"option":weapon},function(data){
-				show_result(data);		
+			$.post("play",{"option":weapon},function(data){
+				show_result(data);
 			})
 		}
 
@@ -80,7 +80,7 @@
 		}
 
 		function check_for_opponent(){
-			$.get("./wait",function(data){
+			$.get("wait",function(data){
 				on_opponent_found();
 			})
 		}
