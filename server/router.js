@@ -11,12 +11,23 @@ var routes = {
   '^/([0-9a-zA-Z]{6})/play$': game.play,
 };
 
+function getCookies(request) {
+  // To Get a Cookie
+  var cookies = {};
+  request.headers.cookie && request.headers.cookie.split(';').forEach(function( cookie ) {
+    var parts = cookie.split('=');
+    cookies[ parts[ 0 ].trim() ] = ( parts[ 1 ] || '' ).trim();
+  });
+  return cookies;
+};
+
 exports.route = function (pathname, request, response, postData) {
   console.log("Routing " + pathname);
+  var cookies = getCookies(request);
   for(re in routes) {
     match = pathname.match(re);
     if (match != null) {
-      args = [request, response];
+      args = [response, postData, cookies];
       for(i in match) {
         if (!parseInt(i))
           continue;
@@ -26,7 +37,7 @@ exports.route = function (pathname, request, response, postData) {
       return routes[re].apply(null, args);
     }
   }
-  static_.errorResponse(request, response, 404);
+  static_.errorResponse(response, 404);
 };
 
 // vi: set et sta sw=2 ts=2:

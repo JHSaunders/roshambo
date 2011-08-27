@@ -4,7 +4,7 @@ var path = require("path");
 var conf = require("./conf");
 var format = require("./format");
 
-exports.errorResponse = function(request, response, code) {
+exports.errorResponse = function(response, code) {
   console.log("Serving error " + code);
   if(typeof(code) === "undefined")
     code = 500;
@@ -24,14 +24,14 @@ var mimeTypes = {
   "PNG": "image/png",
 };
 
-exports.serveStatic = function(request, response, pathname) {
+exports.serveStatic = function(response, postData, cookies, pathname) {
   console.log("Serving static '" + pathname + "'");
   var localFile = path.join(conf.static_dir, pathname);
   console.log("Which is '" + localFile + "'");
   path.exists(localFile, function (exists) {
     if (!exists) {
       //TODO: This returns true for Directories too
-      errorResponse(request, response, 404);
+      errorResponse(response, 404);
       return;
     }
     response.setHeader("Content-Type", mimeTypes[path.extname(pathname).substring(1).toUpperCase()]);

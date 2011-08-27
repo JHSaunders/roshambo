@@ -10,21 +10,7 @@ function createNonce() {
   return base62.encode(new Date().getTime());
 }
 
-function getCookies(request) {
-  // To Get a Cookie
-  var cookies = {};
-  request.headers.cookie && request.headers.cookie.split(';').forEach(function( cookie ) {
-    var parts = cookie.split('=');
-    cookies[ parts[ 0 ].trim() ] = ( parts[ 1 ] || '' ).trim();
-  });
-  return cookies;
-};
-
-function getNonce(request) {
-  return getCookies(request)['nonce'];
-};
-
-exports.index = function(request, response) {
+exports.index = function(response, postData, cookies) {
   var key = "";
   do {
     var num = MIN_NUMBER + (Math.random() * ((MAX_NUMBER - MIN_NUMBER) + 1));
@@ -34,7 +20,7 @@ exports.index = function(request, response) {
   format.serveTemplated(response, "index.html", key);
 };
 
-exports.gamePage = function(request, response, name) {
+exports.gamePage = function(response, postData, cookies, name) {
   if (name in games) {
     nonces = games[name];
     if (nonces.length < 2) {
@@ -48,16 +34,15 @@ exports.gamePage = function(request, response, name) {
   //TODO: Error handling
 };
 
-exports.wait = function(request, response, name) {
-  var n = getNonce(request);
+exports.wait = function(response, postData, cookies, name) {
+  var n = cookies['nonce'];
   if (typeof(n) != "undefined" && game[name].length === 2) {
     var p1 = game[name][0];
     var p2 = game[name][1];
   } 
 };
 
-exports.play = function(request, response, name) {
-  var cookies = getCookies(request);
+exports.play = function(response, postData, cookies, name) {
   if ('nonce' in cookies) {
     var n = cookies['nonce'];
   }
