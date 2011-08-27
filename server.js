@@ -8,7 +8,7 @@ var router = require("./server/router");
 function handleRequest(request, response) {
   var postData = "";
   var pathname = url.parse(request.url).pathname;
-  console.log("Request for " + pathname + " received.");
+  //console.log("Request for " + pathname + " received.");
 
   request.setEncoding("utf8");
   request.addListener("data", function(postDataChunk) {
