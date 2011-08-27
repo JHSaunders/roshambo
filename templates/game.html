@@ -5,35 +5,34 @@
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"/>
 	</script>
 	<script>
-		function show_result(result) {
-			return function() {
-				clear_options();
-				$("#try-again").hide();
-				$("#options").hide();
-				$("#play-again").show();
-				
-				switch(result["result"]){				
-					case "win":
-						$("#result").html("You win!");
-						$("#beats").html("beats");
-					break;
-					case "lose":
-						$("#result").html("You lose!");
-						$("#beats").html("loses to");
-					break;
-					case "draw":
-						$("#result").html("Its a draw!");
-						$("#beats").html("draws with");
-					break;
-				}
-				
-				$("#results").show();
-				your_choice= result["you"]
-				opponent_choice= result["opponent"]
-
-				$("#your-move").attr("src","/static/images/"+your_choice+"-white.png");
-				$("#opponent-move").attr("src","/static/images/"+opponent_choice+"-white.png");
+		function show_result(result) {			
+			clear_options();
+			$("#try-again").hide();
+			$("#options").hide();
+			$("#play-again").show();
+			
+			switch(result["result"]){				
+				case "win":
+					$("#result").html("You win!");
+					$("#beats").html("beats");
+				break;
+				case "lose":
+					$("#result").html("You lose!");
+					$("#beats").html("loses to");
+				break;
+				case "draw":
+					$("#result").html("Its a draw!");
+					$("#beats").html("draws with");
+				break;
 			}
+			
+			$("#results").show();
+			your_choice= result["you"]
+			opponent_choice= result["opponent"]
+
+			$("#your-move").attr("src","/static/images/"+your_choice+"-white.png");
+			$("#opponent-move").attr("src","/static/images/"+opponent_choice+"-white.png");
+		
 		}
 
 		function clear_options(){
@@ -62,9 +61,9 @@
 				result = "lose";
 			}
 
-			res = {"you":weapon,"opponent":"rock","result":result};
-			
-			window.setTimeout(show_result(res), 1000);		
+			$.post("./play",{"option":weapon},function(data){
+				show_result(data);		
+			})
 		}
 
 		function play_again(){
@@ -74,13 +73,20 @@
 			clear_options();
 		}
 
-		function check_for_opponent(){
+		function on_opponent_found() {
 			$("#waiting").hide();
 			$("#options").show();
+
+		}
+
+		function check_for_opponent(){
+			$.get("./wait",function(data){
+				on_opponent_found();
+			})
 		}
 
 		$(function(){
-			window.setTimeout(check_for_opponent, 2000);
+			check_for_opponent();
 		})
 	</script>
 	<title>Ro-Sham-Bo</title>
