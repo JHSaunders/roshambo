@@ -1,6 +1,7 @@
 MIN_NUMBER = 916132832;
 MAX_NUMBER = 56800235583;
 
+var conf = require('./conf');
 var base62 = require('./base62');
 var format = require('./format');
 var static_ = require('./static');
@@ -102,11 +103,15 @@ function createNonce() {
 }
 
 exports.index = function(response, postData, cookies) {
-  var key = "";
-  do {
-    var num = MIN_NUMBER + (Math.random() * ((MAX_NUMBER - MIN_NUMBER) + 1));
-    key = base62.encode(Math.floor(num));
-  } while (key in games);
+  if (conf.production) {
+    var key = "";
+    do {
+      var num = MIN_NUMBER + (Math.random() * ((MAX_NUMBER - MIN_NUMBER) + 1));
+      key = base62.encode(Math.floor(num));
+    } while (key in games);
+  } else {
+    key = "ABCDEF";
+  }
   games[key] = new Game();
   format.serveTemplated(response, "index.html", key);
 };
