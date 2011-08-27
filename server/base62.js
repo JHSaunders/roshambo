@@ -9,7 +9,7 @@ exports.encode = function(num) {
     str = ALPHABET[m] + str;
   } while (num > 0);
   return str;
-}
+};
 
 exports.decode = function(string) {
   var len = string.length;
@@ -17,6 +17,8 @@ exports.decode = function(string) {
   for (i = 0; i < len; i++) {
     var power = len - (i + 1);
     num = num + ALPHABET.indexOf(string[i]) * Math.pow(BASE, power);
-  }
+  };
   return num;
-}
+};
+
+// vi: set et sta sw=2 ts=2:
