@@ -115,6 +115,7 @@ exports.index = function(response, postData, cookies) {
     key = "ABCDEF";
   }
   games[key] = new Game();
+  response.setHeader('Cache-Control', 'private, no-cache');
   format.serveTemplated(response, "index.html", key);
 };
 
@@ -124,6 +125,7 @@ exports.gamePage = function(response, postData, cookies, name) {
     if (game.nonces.length < 2) {
       var n = createNonce();
       game.addNonce(n);
+      response.setHeader('Cache-Control', 'private, no-cache');
       response.setHeader('Set-Cookie', 'nonce=' + n);
       format.serveTemplated(response, "game.html")
     }
@@ -135,6 +137,7 @@ exports.wait = function(response, postData, cookies, name) {
   //TODO timeout
   var n = cookies['nonce'];
   if (typeof(n) != "undefined") {
+    response.setHeader('Cache-Control', 'private, no-cache');
     return games[name].wait(n, response);
   }
   static_.errorResponse(response);
@@ -144,6 +147,7 @@ exports.play = function(response, postData, cookies, name) {
   var n = cookies['nonce'];
   if (typeof(n) != "undefined" && games[name].nonces.length === 2) {
     var option = postData['option'];
+    response.setHeader('Cache-Control', 'private, no-cache');
     return games[name].play(n, response, option);
   }
   static_.errorResponse(response);

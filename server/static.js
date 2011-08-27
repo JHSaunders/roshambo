@@ -36,6 +36,8 @@ exports.serveStatic = function(response, postData, cookies, pathname) {
       return;
     }
     response.setHeader("Content-Type", mimeTypes[path.extname(pathname).substring(1).toUpperCase()]);
+    if (conf.production)
+      response.setHeader("Cache-Control", "max-age=86400, public");
     response.writeHead(200);
     fs.readFile(localFile, function(err, data) {
       response.write(data);
