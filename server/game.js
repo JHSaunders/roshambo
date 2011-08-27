@@ -2,9 +2,10 @@ MIN_NUMBER = 916132832;
 MAX_NUMBER = 56800235583;
 
 var base62 = require('./base62');
+var format = require('./format');
+var static_ = require('./static');
 var games  = exports.games = {};
 
-var format = require('./format');
 
 var Game = function() {
   this.nonces = [];
@@ -16,10 +17,7 @@ var Game = function() {
 
 Game.prototype = {
   addNonce: function(nonce) {
-    if (this.nonces.length === 0) {
-      this.nonces.push(nonce);
-    }
-    if (this.nonces.length === 1) {
+    if (this.nonces.length < 2) {
       this.nonces.push(nonce);
     }
   },
@@ -129,16 +127,18 @@ exports.gamePage = function(response, postData, cookies, name) {
 exports.wait = function(response, postData, cookies, name) {
   //TODO timeout
   var n = cookies['nonce'];
-  if (typeof(n) != "undefined" && games[name].length === 2) {
-    game.wait(n, response);
+  if (typeof(n) != "undefined") {
+    return games[name].wait(n, response);
   }
+  static_.errorResponse(response);
 };
 
 exports.play = function(response, postData, cookies, name) {
   var n = cookies['nonce'];
-  if (typeof(n) != "undefined" && games[name].length === 2) {
-    game.play(n, response);
+  if (typeof(n) != "undefined" && games[name].nonces.length === 2) {
+    return games[name].play(n, response);
   }
+  static_.errorResponse(response);
 };
 
 // vi: set et sta sw=2 ts=2:
