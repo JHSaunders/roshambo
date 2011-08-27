@@ -1,6 +1,7 @@
-var game = require("./game.js");
-var static_ = require("./static.js");
 var util = require("util");
+
+var game = require("./game");
+var static_ = require("./static");
 
 var routes = {
   '^/static/(.+)': static_.serveStatic,

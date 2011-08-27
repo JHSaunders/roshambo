@@ -1,8 +1,8 @@
 var fs = require("fs");
 var path = require("path");
 
-var conf = require("./conf.js");
-var format = require("./format.js");
+var conf = require("./conf");
+var format = require("./format");
 
 exports.errorResponse = function(request, response, code) {
   console.log("Serving error " + code);

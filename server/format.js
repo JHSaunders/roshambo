@@ -1,7 +1,7 @@
 var fs = require("fs");
 var path = require("path");
 
-var conf = require("./conf.js");
+var conf = require("./conf");
 
 exports.format = function() {
     var formatted = arguments[0];
