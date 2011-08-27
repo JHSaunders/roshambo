@@ -48,9 +48,9 @@ function route(pathname, response, postData) {
     return game.index(response);
   if (pathname.substring(0, 8) === "/static/")
     return serveStatic(response, pathname.substring(8));
-  if (pathname.match(/^\/[0-9a-zA-Z]{6}$/)) {
+  if (pathname.match(/^\/[0-9a-zA-Z]{6}$/))
     return game.gamePage(response, pathname.substring(1));
-  errorResponse(response);
+  errorResponse(response, 404);
 }
 
 exports.route = route
