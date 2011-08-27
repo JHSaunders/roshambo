@@ -6,6 +6,8 @@
 	</script>
 	<script>
 		function show_result(result) {
+			console.log("Result:")
+			console.log(result);
 			clear_options();
 			$("#try-again").hide();
 			$("#options").hide();
@@ -63,7 +65,7 @@
 
 			$.post("play",{"option":weapon},function(data){
 				show_result(data);
-			})
+			}, 'json')
 		}
 
 		function play_again(){
