@@ -6,6 +6,99 @@ var games  = exports.games = {};
 
 var format = require('./format');
 
+var Game = function() {
+  this.nonces = [];
+  this.p1 = "";
+  this.p2 = "";
+  this.p1response = null;
+  this.p2response = null;
+};
+
+Game.prototype = {
+  addNonce: function(nonce) {
+    if (this.nonces.length === 0) {
+      this.nonces.push(nonce);
+    }
+    if (this.nonces.length === 1) {
+      this.nonces.push(nonce);
+    }
+  },
+  wait: function(nonce, response) {
+    if (this.nonces.length == 2) {
+      if (nonce == this.nonces[0]) {
+        this.p1response = response;
+      }
+      if (nonce == this.nonces[1]) {
+        this.p2response = response;
+      }
+      if (this.p1response && this.p2response) {
+        this.p1response.write('true');
+        this.p1response.close();
+        this.p1response = null;
+        this.p2response.write('true');
+        this.p2response.close();
+        this.p2response = null;
+      }
+    }
+  },
+  play: function(nonce, response) {
+    if (this.nonces.length == 2) {
+      if (nonce == this.nonces[0]) {
+        this.p1response = response;
+      }
+      if (nonce == this.nonces[1]) {
+        this.p2response = response;
+      }
+      if (this.p1response && this.p2response) {
+        this.p1response.write(this.compete());
+        this.p1response.close();
+        this.p1response = null;
+        this.p2response.write(this.compete());
+        this.p2response.close();
+        this.p2response = null;
+      }
+    }
+  },
+  isReady: function() {
+    return this.nonces.length == 2; 
+  },
+  isCompleted: function() {
+    return (this.p1.length > 0 && this.p2.length > 0);
+  },
+  compete: function(a, b) {
+    if (a === b) {
+      return "draw";
+    }
+    if (a === "rock" && b === "scissors") {
+      return "won";
+    }
+    if (a === "paper" && b === "rock") {
+      return "won";
+    }
+    if (a === "scissors" && b === "paper") {
+      return "won";
+    }
+    return "loose";
+  },
+  getResult: function(nonce) {
+    var you = "";
+    var opponent = "";
+    if (nonce == this.nonces[0]) {
+      you = this.p1;
+      opponent = this.p2;
+    } else {
+      you = this.p2;
+      opponent = this.p2;
+    }
+    var result = {
+      you: you,
+      opponent: opponent,
+      result: compete(you, opponent),
+    };
+    return result;
+  },
+};
+
 function createNonce() {
   return base62.encode(new Date().getTime());
 }
@@ -16,17 +109,16 @@ exports.index = function(response, postData, cookies) {
     var num = MIN_NUMBER + (Math.random() * ((MAX_NUMBER - MIN_NUMBER) + 1));
     key = base62.encode(Math.floor(num));
   } while (key in games);
-  games[key] = [];
+  games[key] = new Game();
   format.serveTemplated(response, "index.html", key);
 };
 
 exports.gamePage = function(response, postData, cookies, name) {
   if (name in games) {
-    nonces = games[name];
-    if (nonces.length < 2) {
-      var n = createNonce();;
-      nonces.push(n);
-      // set cookie and return response
+    var game = games[name];
+    if (game.nonces.length < 2) {
+      var n = createNonce();
+      game.addNonce(n);
       response.setHeader('Set-Cookie', 'nonce=' + n);
       format.serveTemplated(response, "game.html")
     }
@@ -35,16 +127,17 @@ exports.gamePage = function(response, postData, cookies, name) {
 };
 
 exports.wait = function(response, postData, cookies, name) {
+  //TODO timeout
   var n = cookies['nonce'];
-  if (typeof(n) != "undefined" && game[name].length === 2) {
-    var p1 = game[name][0];
-    var p2 = game[name][1];
-  } 
+  if (typeof(n) != "undefined" && games[name].length === 2) {
+    game.wait(n, response);
+  }
 };
 
 exports.play = function(response, postData, cookies, name) {
-  if ('nonce' in cookies) {
-    var n = cookies['nonce'];
+  var n = cookies['nonce'];
+  if (typeof(n) != "undefined" && games[name].length === 2) {
+    game.play(n, response);
   }
 };
 
