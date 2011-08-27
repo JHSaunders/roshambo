@@ -1,7 +1,7 @@
 <!DOCTYPE html> 
 <html>
 <head>
-	<link rel="stylesheet" href="style.css"/>
+	<link rel="stylesheet" href="/static/style.css"/>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"/>
 	</script>
 	<script>
@@ -31,8 +31,8 @@
 				your_choice= result["you"]
 				opponent_choice= result["opponent"]
 
-				$("#your-move").attr("src","static/images/"+your_choice+"-white.png");
-				$("#opponent-move").attr("src","static/images/"+opponent_choice+"-white.png");
+				$("#your-move").attr("src","/static/images/"+your_choice+"-white.png");
+				$("#opponent-move").attr("src","/static/images/"+opponent_choice+"-white.png");
 			}
 		}
 
@@ -41,7 +41,7 @@
 			weapons = ["rock","paper","scissors"]
 			for (i in weapons) {
 				x = weapons[i]	
-				$("#"+x+" img").attr("src","static/images/"+x+"-white.png");
+				$("#"+x+" img").attr("src","/static/images/"+x+"-white.png");
 				$("#"+x).attr("href","javascript:select_option('"+x+"')");
 			}
 
@@ -51,7 +51,7 @@
 		function select_option(weapon) {
 			clear_options();
 			$("#options a").attr("href","#");
-			$("#"+weapon+" img").attr("src","static/images/"+weapon+"-black.png");
+			$("#"+weapon+" img").attr("src","/static/images/"+weapon+"-black.png");
 			
 
 			result = "draw";
@@ -106,9 +106,9 @@
 	</div>
 	<div id="options">
 		<h1>Choose your weapon</h1>
-		<a id="rock" href='javascript:select_option("rock")'><img src="static/images/rock-white.png"></a>
-		<a id="paper" href='javascript:select_option("paper")'><img src="static/images/paper-white.png"></a>
-		<a id="scissors" href='javascript:select_option("scissors")'><img src="static/images/scissors-white.png"></a>
+		<a id="rock" href='javascript:select_option("rock")'><img src="/static/images/rock-white.png"></a>
+		<a id="paper" href='javascript:select_option("paper")'><img src="/static/images/paper-white.png"></a>
+		<a id="scissors" href='javascript:select_option("scissors")'><img src="/static/images/scissors-white.png"></a>
 
 	</div>
 </body>
