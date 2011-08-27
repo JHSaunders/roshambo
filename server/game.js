@@ -22,19 +22,19 @@ Game.prototype = {
     }
   },
   wait: function(nonce, response) {
+    if (nonce == this.nonces[0]) {
+      this.p1response = response;
+    }
     if (this.nonces.length == 2) {
-      if (nonce == this.nonces[0]) {
-        this.p1response = response;
-      }
       if (nonce == this.nonces[1]) {
         this.p2response = response;
       }
       if (this.p1response && this.p2response) {
         this.p1response.write('true');
-        this.p1response.close();
+        this.p1response.end();
         this.p1response = null;
         this.p2response.write('true');
-        this.p2response.close();
+        this.p2response.end();
         this.p2response = null;
       }
     }
@@ -49,10 +49,10 @@ Game.prototype = {
       }
       if (this.p1response && this.p2response) {
         this.p1response.write(this.compete());
-        this.p1response.close();
+        this.p1response.end();
         this.p1response = null;
         this.p2response.write(this.compete());
-        this.p2response.close();
+        this.p2response.end();
         this.p2response = null;
       }
     }
