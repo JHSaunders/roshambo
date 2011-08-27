@@ -33,7 +33,7 @@ exports.route = function (pathname, request, response, postData) {
           continue;
         args.push(match[i]);
       }
-      console.log("Route: " + re + " Params: " + args);
+      //console.log("Route: " + re + " Params: " + args);
       return routes[re].apply(null, args);
     }
   }

@@ -5,7 +5,6 @@ var conf = require("./conf");
 var format = require("./format");
 
 exports.errorResponse = function(response, code) {
-  console.log("Serving error " + code);
   if(typeof(code) === "undefined")
     code = 500;
   response.setHeader("Content-Type", "text/html; charset=utf8");
@@ -25,9 +24,7 @@ var mimeTypes = {
 };
 
 exports.serveStatic = function(response, postData, cookies, pathname) {
-  console.log("Serving static '" + pathname + "'");
   var localFile = path.join(conf.static_dir, pathname);
-  console.log("Which is '" + localFile + "'");
   path.exists(localFile, function (exists) {
     if (!exists) {
       //TODO: This returns true for Directories too
