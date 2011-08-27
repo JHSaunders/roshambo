@@ -4,6 +4,8 @@ MAX_NUMBER = 56800235583;
 var base62 = require('./base62');
 var games  = exports.games = {};
 
+var format = require('./format');
+
 function createNonce() {
   return base62.encode(new Date().getTime());
 }
@@ -26,11 +28,10 @@ exports.index = function(request, response) {
   var key = "";
   do {
     var num = MIN_NUMBER + (Math.random() * ((MAX_NUMBER - MIN_NUMBER) + 1));
-    key = base62.encode(num);
+    key = base62.encode(Math.floor(num));
   } while (key in games);
   games[key] = [];
-  // return response page with key in it for link to play
-  return response;
+  format.serveTemplated(response, "index.html", key);
 };
 
 exports.gamePage = function(request, response, name) {
