@@ -10,7 +10,11 @@ var routes = {
   '^/([0-9a-zA-Z]{6})/$': game.gamePage,
   '^/([0-9a-zA-Z]{6})/wait$': game.wait,
   '^/([0-9a-zA-Z]{6})/play$': game.play,
-  '^/favicon.ico$': function(response, postData, cookies) {response.writeHead(404); response.end();},
+  '^/favicon.ico$': silent404,
+};
+
+function silent404(response, postData, cookies) {
+  static_.errorResponse(response, 404, true);
 };
 
 function getCookies(request) {
