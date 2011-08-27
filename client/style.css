@@ -11,7 +11,7 @@ a {
 	border-radius: 15px;
 	padding:15px;
 	font-weight:bold;
-	
+
 	border: 10px solid black;
 }
 
@@ -27,3 +27,15 @@ a {
 	width: 200px;
 	text-align:center;
 }
+
+#options {
+	display:none;
+}
+
+#waiting {
+}
+
+#results {
+	display:none;
+}
+

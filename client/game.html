@@ -8,36 +8,96 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"/>
 	</script>
 	<script>
+		function show_result(result) {
+			return function() {
+				clear_options();
+				$("#try-again").hide();
+				if (result["result"]!="draw") {						
+					$("#options").hide();
+				} else {
+
+					$("#try-again").show();
+				}
+				switch(result["result"]){				
+					case "win":
+						$("#result").html("You win!");
+						$("#beats").html("beats");
+					break;
+					case "lose":
+						$("#result").html("You lose!");
+						$("#beats").html("loses to");
+					break;
+					case "draw":
+						$("#result").html("Its a draw! Try again.");
+						$("#beats").html("is the same as");
+					break;
+				}
+				$("#results").show();
+				your_choice= result["you"]
+				opponent_choice= result["opponent"]
+
+				$("#your-move").attr("src","static/images/"+your_choice+"-white.png");
+				$("#opponent-move").attr("src","static/images/"+opponent_choice+"-white.png");
+			}
+		}
+
+		function clear_options(){
+			weapons = ["rock","paper","scissors"]
+			for (i in weapons) {
+			x = weapons[i]	
+			$("#"+x+" img").attr("src","static/images/"+x+"-white.png");
+			}
+
+		}
+
+
 		function select_option(weapon) {
+ 			clear_options();
+			$("#"+weapon+" img").attr("src","static/images/"+weapon+"-black.png");
 			
+
+			result = "draw";
+			
+			if (weapon=="paper") {
+				result = "win";
+			} else if (weapon=="scissors"){
+				result = "lose";
+			}
+
+			res = {"you":weapon,"opponent":"rock","result":result};
+			
+			window.setTimeout(show_result(res), 500);		
+		}
+
+		function check_for_opponent(){
+			$("#waiting").hide();
+			$("#options").show();
 		}
 
 		$(function(){
-			
+			window.setTimeout(check_for_opponent, 2000);
 		})
-
 	</script>
 	<title>Ro-Sham-Bo</title>
 </head>
 <body>
-	<h1>
-		Send this to your opponent: http://rsb.com/1244
-	</h1>
 	<div id="waiting">
 		<h1>Waiting for your opponent</h1>
+		<h1>Send this to your opponent: http://rsb.com/1244</h1>
+	</div>
+
+	<div id="results">
+		<h1 id="result"></h1>
+		<img id="your-move"/>
+		<span id ="beats">beats</span>
+		<img id="opponent-move"/>
+		<h1 id="try-again">Try again</h1>
 	</div>
 	<div id="options">
 		<h1>Choose your weapon</h1>
-		<a id = "rock" href='javascript:select_option("rock")'><img src="/img/rock.png"></a>
-		<a id = "paper" href='javascript:select_option("paper")'><img src="/img/paper.png"></a>
-		<a id = "scissors" href='javascript:select_option("scissors")'><img src="/img/scissors.png"></a>
-
-	</div>
-	<div id="results">
-		<h1>You Win</h1>
-		<h1>You Lose</h1>
-		<h1>Its a Draw</h1>
-
+		<a id = "rock" href='javascript:select_option("rock")'><img src="static/images/rock-white.png"></a>
+		<a id = "paper" href='javascript:select_option("paper")'><img src="static/images/paper-white.png"></a>
+		<a id = "scissors" href='javascript:select_option("scissors")'><img src="static/images/scissors-white.png"></a>
 
 	</div>
 </body>
