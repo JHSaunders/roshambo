@@ -1,10 +1,12 @@
 var fs = require("fs");
 var path = require("path");
+
 var conf = require("./conf.js");
+var game = require("./game.js");
 
 function errorResponse(response, code) {
   console.log("Serving error " + code);
-  if(typeof(code) == "undefined")
+  if(typeof(code) === "undefined")
     code = 500;
   response.setHeader("Content-Type", "text/html; charset=utf8");
   response.writeHead(code);
@@ -42,12 +44,13 @@ function serveStatic(response, pathname) {
 
 function route(pathname, response, postData) {
   console.log("Routing " + pathname);
-  if (pathname.substring(0, 8) == "/static/") {
-    serveStatic(response, pathname.substring(8));
-    return
-  } else {
-    errorResponse(response);
-  }
+  if (pathname === "/")
+    return game.index(response);
+  if (pathname.substring(0, 8) === "/static/")
+    return serveStatic(response, pathname.substring(8));
+  if (pathname.match(/^\/[0-9a-zA-Z]{6}$/)) {
+    return game.gamePage(response, pathname.substring(1));
+  errorResponse(response);
 }
 
 exports.route = route
