@@ -10,8 +10,8 @@ exports.errorResponse = function(request, response, code) {
     code = 500;
   response.setHeader("Content-Type", "text/html; charset=utf8");
   response.writeHead(code);
-  fs.readFile(path.join(conf.template_dir, 'error.html'), function(err, data) {
-    data = format.format(code);
+  fs.readFile(path.join(conf.template_dir, 'error.html'), 'utf8', function(err, data) {
+    data = format.format(data, code);
     response.write(data);
     response.end();
   });

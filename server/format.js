@@ -1,4 +1,4 @@
-function format() {
+exports.format = function() {
     var formatted = arguments[0];
     for (var i = 1; i < arguments.length; i++) {
         var regexp = new RegExp('\\{'+(i-1)+'\\}', 'gi');
@@ -6,5 +6,3 @@ function format() {
     }
     return formatted;
 };
-
-exports.format = format
