@@ -1,8 +1,15 @@
 var querystring = require("querystring");
+var url = require("url");
 var util = require("util");
 
 var game = require("./game");
 var static_ = require("./static");
+
+// TODO Cache precompiled regexes for redirects and routes
+
+var redirects = {
+  '^/([0-9a-zA-Z]{6})$': '/$1/',
+};
 
 var routes = {
   '^/static/(.+)': static_.serveStatic,
@@ -31,6 +38,28 @@ exports.route = function (pathname, request, response, postData) {
   console.log("Routing " + pathname);
   var cookies = getCookies(request);
   var postData = querystring.parse(postData);
+
+  var hostname = null;
+  if ('x-forwarded-host' in request.headers)
+    hostname = request.headers['x-forwarded-host'];
+  if ('host' in request.headers)
+    hostname = request.headers['host'];
+  if (hostname) {
+    for(re in redirects) {
+      match = pathname.match(re);
+      if (match != null) {
+        var dest = url.parse('http://' + pathname.replace(new RegExp(re), redirects[re]));
+        dest.host = hostname;
+        dest = url.format(dest);
+        //console.log("Redirecting to: " + dest);
+        response.setHeader('Location', dest);
+        response.writeHead(302);
+        response.end();
+        return;
+      }
+    }
+  }
+
   for(re in routes) {
     match = pathname.match(re);
     if (match != null) {
