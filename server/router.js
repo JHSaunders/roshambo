@@ -27,6 +27,7 @@ function serveStatic(response, pathname) {
   console.log("Which is '" + localFile + "'");
   path.exists(localFile, function (exists) {
     if (!exists) {
+      //TODO: This returns true for Directories too
       errorResponse(response, 404);
       return;
     }
