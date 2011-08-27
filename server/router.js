@@ -5,9 +5,9 @@ var util = require("util");
 var routes = {
   '^/static/(.+)': static_.serveStatic,
   '^/$': game.index,
-  '^/[0-9a-zA-Z]{6}/$': game.gamePage,
-  '^/[0-9a-zA-Z]{6}/wait$': game.wait,
-  '^/[0-9a-zA-Z]{6}/play$': game.play,
+  '^/([0-9a-zA-Z]{6})/$': game.gamePage,
+  '^/([0-9a-zA-Z]{6})/wait$': game.wait,
+  '^/([0-9a-zA-Z]{6})/play$': game.play,
 };
 
 exports.route = function (pathname, request, response, postData) {

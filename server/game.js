@@ -41,14 +41,11 @@ exports.gamePage = function(request, response, name) {
       var n = createNonce();;
       nonces.push(n);
       // set cookie and return response
-      response.writeHead(200, {
-        'Set-Cookie'  : 'nonce=' + n,
-        'Content-Type': 'text/plain',
-      });
-      return response;
+      response.setHeader('Set-Cookie', 'nonce=' + n);
+      format.serveTemplated(response, "game.html")
     }
   }
-  // Error handling
+  //TODO: Error handling
 };
 
 exports.wait = function(request, response, name) {
