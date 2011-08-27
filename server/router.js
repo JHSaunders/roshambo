@@ -1,3 +1,4 @@
+var querystring = require("querystring");
 var util = require("util");
 
 var game = require("./game");
@@ -25,6 +26,7 @@ function getCookies(request) {
 exports.route = function (pathname, request, response, postData) {
   console.log("Routing " + pathname);
   var cookies = getCookies(request);
+  var postData = querystring.parse(postData);
   for(re in routes) {
     match = pathname.match(re);
     if (match != null) {

@@ -29,7 +29,7 @@ exports.serveStatic = function(response, postData, cookies, pathname) {
   path.exists(localFile, function (exists) {
     if (!exists) {
       //TODO: This returns true for Directories too
-      errorResponse(response, 404);
+      exports.errorResponse(response, 404);
       return;
     }
     response.setHeader("Content-Type", mimeTypes[path.extname(pathname).substring(1).toUpperCase()]);

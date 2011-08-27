@@ -40,19 +40,21 @@ Game.prototype = {
       }
     }
   },
-  play: function(nonce, response) {
+  play: function(nonce, response, option) {
     if (this.nonces.length == 2) {
       if (nonce == this.nonces[0]) {
         this.p1response = response;
+        this.p1 = option;
       }
       if (nonce == this.nonces[1]) {
         this.p2response = response;
+        this.p2 = option;
       }
       if (this.p1response && this.p2response) {
-        this.p1response.write(this.compete());
+        this.p1response.write(this.getResult(this.nonces[0]));
         this.p1response.end();
         this.p1response = null;
-        this.p2response.write(this.compete());
+        this.p2response.write(this.getResult(this.nonces[1]));
         this.p2response.end();
         this.p2response = null;
       }
@@ -92,9 +94,9 @@ Game.prototype = {
     var result = {
       you: you,
       opponent: opponent,
-      result: compete(you, opponent),
+      result: this.compete(you, opponent),
     };
-    return result;
+    return JSON.stringify(result);
   },
 };
 
@@ -141,7 +143,8 @@ exports.wait = function(response, postData, cookies, name) {
 exports.play = function(response, postData, cookies, name) {
   var n = cookies['nonce'];
   if (typeof(n) != "undefined" && games[name].nonces.length === 2) {
-    return games[name].play(n, response);
+    var option = postData['option'];
+    return games[name].play(n, response, option);
   }
   static_.errorResponse(response);
 };
