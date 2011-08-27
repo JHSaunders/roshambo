@@ -15,16 +15,16 @@
 
 			switch(result["result"]){
 				case "win":
-					$("#result").html("You win!");
-					$("#beats").html("beats");
+					$("#result").text("You win!");
+					$("#beats").text("beats");
 				break;
 				case "lose":
-					$("#result").html("You lose!");
-					$("#beats").html("loses to");
+					$("#result").text("You lose!");
+					$("#beats").text("loses to");
 				break;
 				case "draw":
-					$("#result").html("Its a draw!");
-					$("#beats").html("draws with");
+					$("#result").text("Its a draw!");
+					$("#beats").text("draws with");
 				break;
 			}
 

@@ -71,15 +71,15 @@ Game.prototype = {
       return "draw";
     }
     if (a === "rock" && b === "scissors") {
-      return "won";
+      return "win";
     }
     if (a === "paper" && b === "rock") {
-      return "won";
+      return "win";
     }
     if (a === "scissors" && b === "paper") {
-      return "won";
+      return "win";
     }
-    return "loose";
+    return "lose";
   },
   getResult: function(nonce) {
     var you = "";
@@ -89,7 +89,7 @@ Game.prototype = {
       opponent = this.p2;
     } else {
       you = this.p2;
-      opponent = this.p2;
+      opponent = this.p1;
     }
     var result = {
       you: you,
