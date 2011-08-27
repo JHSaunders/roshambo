@@ -1,10 +1,26 @@
 #!/usr/bin/node
 var http = require("http");
+var url = require("url");
 
-http.createServer(function(request, response) {
-  response.writeHead(200, {"Content-Type": "text/plain"});
-  response.write("Hello World");
-  response.end();
-}).listen(8888);
+var conf = require("./server/conf");
+var router = require("./server/router");
 
-# vi: set et sta sw=2 ts=2:
+function handleRequest(request, response) {
+  var postData = "";
+  var pathname = url.parse(request.url).pathname;
+  console.log("Request for " + pathname + " received.");
+
+  request.setEncoding("utf8");
+  request.addListener("data", function(postDataChunk) {
+    postData += postDataChunk;
+    console.log("Received POST data chunk '" + postDataChunk + "'.");
+  });
+  request.addListener("end", function() {
+    router.route(pathname, response, postData);
+  });
+};
+
+http.createServer(handleRequest).listen(conf.port);
+console.log("Listening on port " + conf.port);
+
+// vi: set et sta sw=2 ts=2:
