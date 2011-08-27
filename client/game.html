@@ -37,17 +37,20 @@
 		}
 
 		function clear_options(){
+			
 			weapons = ["rock","paper","scissors"]
 			for (i in weapons) {
 				x = weapons[i]	
 				$("#"+x+" img").attr("src","static/images/"+x+"-white.png");
+				$("#"+x).attr("href","javascript:select_option('"+x+"')");
 			}
 
 		}
 
 
 		function select_option(weapon) {
- 			clear_options();
+			clear_options();
+			$("#options a").attr("href","#");
 			$("#"+weapon+" img").attr("src","static/images/"+weapon+"-black.png");
 			
 
