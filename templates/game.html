@@ -17,10 +17,12 @@
 				case "win":
 					$("#result").text("You win!");
 					$("#beats").text("beats");
+					$('body').css('background-color', '#afa');
 				break;
 				case "lose":
 					$("#result").text("You lose!");
 					$("#beats").text("loses to");
+					$('body').css('background-color', '#faa');
 				break;
 				case "draw":
 					$("#result").text("Its a draw!");
@@ -71,6 +73,7 @@
 		function play_again(){
 			$("#results").hide();
 			$("#waiting").show();
+			$('body').css('background-color', 'white');
 			check_for_opponent();
 			clear_options();
 		}
