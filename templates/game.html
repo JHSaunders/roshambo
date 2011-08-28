@@ -34,9 +34,8 @@
 			your_choice= result["you"]
 			opponent_choice= result["opponent"]
 
-			$("#your-move").attr("src","/static/images/"+your_choice+"-white.png");
-			$("#opponent-move").attr("src","/static/images/"+opponent_choice+"-white.png");
-
+			$("#your-move").attr("src", im_url(your_choice));
+			$("#opponent-move").attr("src", im_url(opponent_choice));
 		}
 
 		function clear_options(){
@@ -44,17 +43,22 @@
 			weapons = ["rock","paper","scissors"]
 			for (i in weapons) {
 				x = weapons[i]
-				$("#"+x+" img").attr("src","/static/images/"+x+"-white.png");
+				$("#"+x+" img").attr("src", im_url(x));
 				$("#"+x).attr("href","javascript:select_option('"+x+"')");
 			}
 
 		}
 
+		function im_url(weapon, color) {
+			if (typeof(color) == "undefined")
+				color = "white";
+			return "/static/images/" + weapon + "-" + color + ".png";
+		}
 
 		function select_option(weapon) {
 			clear_options();
 			$("#options a").attr("href","#");
-			$("#"+weapon+" img").attr("src","/static/images/"+weapon+"-black.png");
+			$("#"+weapon+" img").attr("src", im_url(weapon, "black"));
 
 
 			result = "draw";
@@ -93,6 +97,10 @@
 		$(function(){
 			$("#game-url").text(location.href);
 			check_for_opponent();
+			// Preload:
+			$.each(["rock", "paper", "scissors"], function() {
+				new Image().src = im_url(this, "black");
+			});
 		})
 	</script>
 	<title>Ro-Sham-Bo</title>
