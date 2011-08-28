@@ -40,10 +40,10 @@ exports.route = function (pathname, request, response, postData) {
   var postData = querystring.parse(postData);
 
   var hostname = null;
-  if ('x-forwarded-host' in request.headers)
-    hostname = request.headers['x-forwarded-host'];
   if ('host' in request.headers)
     hostname = request.headers['host'];
+  if ('x-forwarded-host' in request.headers)
+    hostname = request.headers['x-forwarded-host'];
   if (hostname) {
     for(re in redirects) {
       match = pathname.match(re);
