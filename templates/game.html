@@ -85,6 +85,7 @@
 		function on_opponent_found() {
 			$("#waiting").hide();
 			$("#options").show();
+			$("#link-prompt").hide();
 
 		}
 
@@ -103,12 +104,14 @@
 			});
 		})
 	</script>
-	<title>Ro-Sham-Bo</title>
+	<title>Roshambo</title>
 </head>
 <body>
 	<div id="waiting">
 		<h1>Waiting for your opponent</h1>
-		<h2>Send this link to your opponent:<br/><span id="game-url"></span></h2>
+		<div id="link-prompt">
+			<h2>Send this link to your opponent:<br/><span id="game-url"></span></h2>
+		</div>
 	</div>
 
 	<div id="results">
