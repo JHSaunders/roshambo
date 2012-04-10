@@ -105,7 +105,7 @@ function createNonce() {
 }
 
 exports.index = function(response, postData, cookies) {
-  if (conf.production) {
+  if (1 || conf.production) {
     var key = "";
     do {
       var num = MIN_NUMBER + (Math.random() * ((MAX_NUMBER - MIN_NUMBER) + 1));
