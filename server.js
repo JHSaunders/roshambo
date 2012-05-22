@@ -26,7 +26,7 @@ if (conf.production) {
   });
 }
 
-http.createServer(handleRequest).listen(conf.port);
+http.createServer(handleRequest).listen(process.env.PORT || conf.port);
 console.log("Listening on port " + conf.port);
 
 // vi: set et sta sw=2 ts=2:
