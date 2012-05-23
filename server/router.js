@@ -14,9 +14,9 @@ var redirects = {
 var routes = {
   '^/static/(.+)': static_.serveStatic,
   '^/$': game.index,
-  '^/([0-9a-zA-Z]{6})/$': game.gamePage,
-  '^/([0-9a-zA-Z]{6})/wait$': game.wait,
-  '^/([0-9a-zA-Z]{6})/play$': game.play,
+  '^/([0-9a-zA-Z]+)/$': game.gamePage,
+  '^/([0-9a-zA-Z]+)/wait$': game.wait,
+  '^/([0-9a-zA-Z]+)/play$': game.play,
   '^/favicon.ico$': silent404,
 };
 

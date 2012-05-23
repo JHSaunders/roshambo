@@ -1,5 +1,8 @@
-var ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-var BASE = 62;
+//var ALPHABET = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+//var BASE = 62;
+
+var ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+var BASE = 26;
 
 exports.encode = function(num) {
   var str = "";
@@ -13,11 +16,11 @@ exports.encode = function(num) {
 
 exports.decode = function(string) {
   var len = string.length;
-  var num = 0;
-  for (i = 0; i < len; i++) {
+  var i,num = 0;
+  for (i = 0; i < len; i=i+1) {
     var power = len - (i + 1);
     num = num + ALPHABET.indexOf(string[i]) * Math.pow(BASE, power);
-  };
+  }
   return num;
 };
 
